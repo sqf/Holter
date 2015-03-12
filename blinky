@@ -1,5 +1,5 @@
 //*****************************************************************************
-//
+// !!!!!!!!!!!!WORKING!!!!!! blinking ADC4 PD7 Pad No. 23
 // blinky.c - Simple example to blink the on-board LED.
 //
 // Copyright (c) 2008-2010 Texas Instruments Incorporated.  All rights reserved.
@@ -46,9 +46,9 @@ main(void)
     //
     // Enable the GPIO port that is used for the on-board LED.
     //
-    SYSCTL_RCGC2_R = SYSCTL_RCGC2_GPIOF;
-//    SYSCTL_RCGC2_R = SYSCTL_RCGC2_GPIOD;
-//    SYSCTL_RC
+    // SYSCTL_RCGC2_R = SYSCTL_RCGC2_GPIOF; default
+    SYSCTL_RCGC2_R = SYSCTL_RCGC2_GPIOD;
+
 
     //
     // Do a dummy read to insert a few cycles after enabling the peripheral.
@@ -58,12 +58,11 @@ main(void)
     //
     // Enable the GPIO pin for the LED (PF0).  Set the direction as output, and
     // enable the GPIO pin for digital function.
-    // pd7 (adc4) as output && enabling for digital function
-    GPIO_PORTF_DIR_R = 0x01;
-    GPIO_PORTF_DEN_R = 0x01;
-//    GPIO_PORTD_DIR_R = 1<<7;
-//    GPIO_PORTD_DEN_R = 1<<7;
-
+    //
+//    GPIO_PORTF_DIR_R = 0x01;
+//    GPIO_PORTF_DEN_R = 0x01;
+    GPIO_PORTD_DIR_R |= 1<<7;
+    GPIO_PORTD_DEN_R |= 1<<7;
 
     //
     // Loop forever.
@@ -73,26 +72,24 @@ main(void)
         //
         // Turn on the LED.
         //
-        GPIO_PORTF_DATA_R |= 0x01;
-//        GPIO_PORTD_DATA_R |= 1<<7;
+    	GPIO_PORTD_DATA_R |= 1<<7;
 
         //
         // Delay for a bit.
         //
-        for(ulLoop = 0; ulLoop < 200000; ulLoop++)
+        for(ulLoop = 0; ulLoop < 700000; ulLoop++)
         {
         }
 
         //
         // Turn off the LED.
         //
-        GPIO_PORTF_DATA_R &= ~(0x01);
-//        GPIO_PORTD_DATA_R = 0<<7;
+        GPIO_PORTD_DATA_R &= ~(1<<7);
 
         //
         // Delay for a bit.
         //
-        for(ulLoop = 0; ulLoop < 200000; ulLoop++)
+        for(ulLoop = 0; ulLoop < 700000; ulLoop++)
         {
         }
     }
